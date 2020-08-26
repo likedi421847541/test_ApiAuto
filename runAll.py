@@ -99,11 +99,11 @@ def send_email(sender,psw,receiver,smtpserver,report_file,port):
     smtp.quit()
     print('test report email has send out !')
 if __name__ == '__main__':
-    a = login()
-    token = a[0]
-    user_id = a[1]
-    print('token 的类型是：',type(token))
-    write_yaml(token,user_id)
+    # a = login()
+    # token = a[0]
+    # user_id = a[1]
+    # print('token 的类型是：',type(token))
+    # write_yaml(token,user_id)
     all_case = add_case() # 第一步：加载用例
     # 生成测试报告的路径
     run_case(all_case) # 第二步：执行用例
@@ -118,4 +118,3 @@ if __name__ == '__main__':
     port = readConfig.port
     receiver = readConfig.receiver
     send_email(sender,psw,receiver,smtp_server,report_file,port)
-    login()

@@ -10,6 +10,8 @@ class RunMain():   # 封装 get/post 方法
         result = requests.get(url = url,data = data,headers = headers).json()
         res = json.dumps(result,ensure_ascii=False,sort_keys=True,indent=2)
         return res
+    def send_delete(self,url,headers):
+        result = requests.request()
     def run_main(self,method,url=None,data=None,headers = None):
         result = None
         if method  == 'get':
