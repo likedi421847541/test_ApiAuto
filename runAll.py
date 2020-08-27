@@ -31,7 +31,7 @@ def write_yaml(value1,value2):
     :return:
     '''
     ypath = os.path.join(cur_path,'common','token.yaml')
-    print(ypath)
+    # print(ypath)
     # 需写入的内容
     t = {'token':value1,'user_id':value2}
     # 写入到 yaml 文件

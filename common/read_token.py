@@ -14,7 +14,6 @@ def get_token(yamlName='token.yaml'):
     t = yaml.load(a,Loader = yaml.FullLoader)
     f.close()
     t= t["token"]
-    print (t)
     return t
 
 def get_userid(yamlName='token.yaml'):
