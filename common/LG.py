@@ -37,6 +37,14 @@ class LG():
         data = json.dumps(data)
         centers = self.s.request('post', url, data=data, headers=headers).json()
         return centers
+    def edit_centers(self,center_id,data):
+        url = 'http://api2.learning-genie-api.com/api/v1/centers/' + center_id
+        headers = {'Content-Type': 'application/json;charset=UTF-8',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0;   WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+                   'X-LG-Token': self.token,
+                   'X-UID': self.user_id}
+        edit_centers = self.s.put(url,data,headers = headers).json()
+        return edit_centers
     def delete_centers(self,center_id):
         url = 'http://api2.learning-genie-api.com/api/v1/centers/'+center_id
         headers = {'Content-Type': 'application/json;charset=UTF-8',
@@ -44,6 +52,14 @@ class LG():
                    'X-LG-Token': self.token,
                    'X-UID': self.user_id}
         del_centers = self.s.delete(url,headers = headers)
+    def get_centers(self):
+        url = 'http://api2.learning-genie-api.com/api/v1/users/'+self.user_id+'/getCenterGroupByUserId?agencyId='
+        headers = {'Content-Type': 'application/json;charset=UTF-8',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0;   WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+                   'X-LG-Token': self.token,
+                   'X-UID': self.user_id}
+        centers = self.s.get(url,headers = headers).json()
+        return centers
 if __name__ == '__main__':
     s = requests.session()
     login = LG().login("421847541@qq.com","12345678q")
