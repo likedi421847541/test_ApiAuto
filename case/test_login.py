@@ -8,5 +8,7 @@ class Login_001(unittest.TestCase):
         cls.lg = LG()
     def test_login(self):
         t = self.lg.login('421847541@qq.com','12345678q')
-        self.assertEqual(t[1],'421847541@qq.com')
-
+        self.assertEqual(t['email'],'421847541@qq.com')
+    def test_login_error(self):
+        t = self.lg.login(password='123456')
+        self.assertIn(t['message'],'The username or password is incorrect.')
