@@ -5,25 +5,9 @@ import time
 from common import  HTMLTestRunner
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from common import demo
 import smtplib
-import json
 import yaml
 cur_path = os.path.dirname(os.path.realpath(__file__)) # 当前脚本所在文件的真实路径
-print(cur_path)
-def login():
-    url = 'http://api2.learning-genie-api.com/api/v1/account/login'
-    data = {"email": "421847541@qq.com", "password": "12345678q", "from": "web", "emailLoginExpireFlag": ""}
-    data = json.dumps(data)
-    headers = {'Content-Type': 'application/json;charset=UTF-8',
-               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0;   WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'}
-    login = demo.RunMain().run_main('post', url, data=data, headers=headers)
-    login = json.loads(login)
-    print(login['token'],login['user_id'])
-    token = login['token']
-    user_id = login['user_id']
-    return token,user_id
-
 def write_yaml(value1,value2):
     '''
     把获取到的 token值写入到 yaml 文件
@@ -31,7 +15,7 @@ def write_yaml(value1,value2):
     :return:
     '''
     ypath = os.path.join(cur_path,'common','token.yaml')
-    print(ypath)
+    # print(ypath)
     # 需写入的内容
     t = {'token':value1,'user_id':value2}
     # 写入到 yaml 文件
@@ -45,7 +29,7 @@ def add_case(caseName='case',rule="test_*.py"): # 第一步：加载所有的测
     print("test case path:{}".format(case_path))
     #定义 discover 方法的参数
     discover = unittest.defaultTestLoader.discover(case_path,pattern=rule,top_level_dir=None)
-    print(discover)
+    #print(discover)
     return discover
 def run_case(all_case,reportName='report'):
     '''第二步：执行所有的用例，并将结果写入 HTML 测试报告
