@@ -2,6 +2,7 @@
 import requests
 import json
 import datetime
+import base64
 import random
 import string
 from common.read_token import get_token
@@ -17,6 +18,8 @@ class LG():
         self.current_year = datetime.datetime.now().year
         self.next_year = int(datetime.datetime.now().year) + 1
         self.current_time = str(datetime.datetime.now())[:-3]
+        self.time_id = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        self.filePath = r'C:\Users\Administrator\Desktop\test.jpg'
 
     def login(self, email1='421847541@qq.com', password='12345678q'):
         url = self.url + '/account/login'
@@ -122,8 +125,12 @@ class LG():
     def del_class(self, group_id):
         if group_id != '':
             url = self.url + '/groups/' + group_id
+            print(url)
             headers = self.get_headers()
             del_groups = self.s.delete(url, headers=headers)
+            return del_groups
+
+
         else:
             pass
 
@@ -204,6 +211,58 @@ class LG():
         }
         students = self.s.get(url, params =param, headers=self.get_headers()).json()
         return students
+
+    def get_center(self):
+        url = self.url+'/users/'+self.user_id+'/getCenterGroupByUserId?agencyId='
+        centers = self.s.get(url,headers = self.headers).json
+        return centers
+    def get_class(self,center_id):
+        url = self.url+'/centers/{}'.format(center_id)
+        group = self.s.get(url,headers = self.headers).json()
+        return  group
+    def base_64(self):
+        with open(self.filePath,'rb') as p:  #转为二进制格式
+            b64 = base64.b64encode(p.read())   #使用 base64 加密
+            #print(str(b64))
+            b64 = b64.decode('utf-8')
+            b64 = str(b64)
+            return  b64
+    def uploadFile(self,fileType):
+        url = self.url+'/medias/fileUploadBase'
+        data = {
+            "type":fileType,
+            "base64_file":self.base_64()
+        }
+        data = json.dumps(data)
+        #print(data)
+        uploadFile = self.s.post(url,data=data,headers = self.headers).json()
+        #print(uploadFile)
+        return uploadFile
+    def add_activity(self,childId,meidiaId):  # 添加家园互动
+        url = self.url+'/notes'
+        data = {
+            "createTime":self.current_time,
+            "title":"",
+            "type":"Activity",
+            "payload":"ad",
+            "medias":meidiaId,
+            "annexMedias":"",
+            "Children":childId,
+            "from":self.current_time,
+            "to":self.current_time,
+            "props":"",
+            "user_id":self.user_id,
+            "copyId":self.time_id,
+            "videoProps":"",
+            "batchAddType":"add",
+            "relatedId":"",
+            "classes":"",
+            "childIds":""
+        }
+        data = json.dumps(data)
+        #print(data)
+        result = self.s.post(url,data=data,headers =self.headers).json()
+        return result
 
 if __name__ == '__main__':
     s = requests.session()

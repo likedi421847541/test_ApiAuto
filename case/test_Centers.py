@@ -35,7 +35,7 @@ class AddCenters_001(unittest.TestCase):
         centers_01 = self.lg.add_center(center_name)
         self.assertIn(centers_01['error_code'],'centername_exist')
         #self.lg.delete_centers(g)
-    def test_editcenters_name(self):
+    def test_editcenters_name(self):  #编辑学校的名字
         '''
         用例三：编辑学校
         :return:
@@ -51,7 +51,7 @@ class AddCenters_001(unittest.TestCase):
                 self.a.append(i[values])
         self.assertIn(editCenterName, self.a)
         #self.lg.delete_centers(self.centers['id'])
-    def test_del_centers(self):
+    def test_del_centers(self):  # 删除学校
         centers = self.lg.add_center(self.name)
         centers_id_yuqi = centers['id']
         self.lg.delete_centers(centers_id_yuqi)
@@ -63,7 +63,7 @@ class AddCenters_001(unittest.TestCase):
                 self.a.append(i[values])
         #print(self.a)
         self.assertNotIn(centers_id_yuqi,self.a)
-    def test_del_haveclassCen(self):
+    def test_del_haveclassCen(self):  # 删除有班级的学校
         centers = self.lg.add_center(self.name)  # 添加学校
         self.g['01'] = centers['id']
         group = self.lg.add_class(centers['id'],self.name)

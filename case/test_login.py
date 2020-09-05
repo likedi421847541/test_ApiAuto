@@ -1,4 +1,4 @@
-3# -*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 import unittest
 import requests
 from common.LG import LG

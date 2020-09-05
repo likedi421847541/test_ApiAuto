@@ -3,6 +3,7 @@ import unittest
 import requests
 import string
 import random
+import json
 from common.LG import LG
 from common.Period import Period
 class LGClass(unittest.TestCase):
@@ -54,6 +55,30 @@ class LGClass(unittest.TestCase):
         addClass = self.lg.add_class(self.center_id, 'chongfu_class')
         err_message = 'The class name already exists.'
         self.assertEqual(addClass['message'],err_message)
+    def test_del_class(self):#删除班级
+        addClass = self.lg.add_class(self.center_id,class_name=self.name)  # 添加班级
+        #group = self.lg.get_class(self.center_id)['groups']  # 获取指定学校下的班级，返回一个列表
+        addClass['id'] = str.upper(addClass['id'])    # get_class 返回的是小写，经 str.upper 转换为大写
+        self.lg.del_class(addClass['id']) #删除班级
+        group = self.lg.get_class(self.center_id)['groups']  # 获取指定班级下的班级信息
+        print(group)
+        a = []
+        for items in group:
+            for keys in items:
+                a.append(items[keys])
+        self.assertTrue(addClass['id'] not in  a)
+    def test_del_haveStuClass(self):
+        addClass = self.lg.add_class(self.center_id,class_name=self.name)  # 添加班级
+        self.g['id'] = addClass['id']
+        print(addClass)
+        addClass['id'] = str.upper(addClass['id'])
+        addCild = self.lg.add_child(addClass['id'])  # 添加小孩
+        print(addCild)
+        err_msg = self.lg.del_class(addClass['id']).json()['error_message']  # 删除班级
+        print(err_msg)
+        msg = 'The group has users or children.'
+        self.assertEqual(msg,err_msg)
+        self.lg.del_child(addCild['id'])
 
 
 
