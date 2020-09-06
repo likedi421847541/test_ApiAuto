@@ -19,7 +19,7 @@ class LG():
         self.next_year = int(datetime.datetime.now().year) + 1
         self.current_time = str(datetime.datetime.now())[:-3]
         self.time_id = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        self.filePath = r'C:\Users\Administrator\Desktop\test.jpg'
+        # self.filePath = r'C:\Users\Administrator\Desktop\test.jpg'
 
     def login(self, email1='421847541@qq.com', password='12345678q'):
         url = self.url + '/account/login'
@@ -220,18 +220,18 @@ class LG():
         url = self.url+'/centers/{}'.format(center_id)
         group = self.s.get(url,headers = self.headers).json()
         return  group
-    def base_64(self):
-        with open(self.filePath,'rb') as p:  #转为二进制格式
+    def base_64(self,filePath):
+        with open(filePath,'rb') as p:  #转为二进制格式
             b64 = base64.b64encode(p.read())   #使用 base64 加密
             #print(str(b64))
             b64 = b64.decode('utf-8')
             b64 = str(b64)
             return  b64
-    def uploadFile(self,fileType):
+    def uploadFile(self,fileType,filePath):
         url = self.url+'/medias/fileUploadBase'
         data = {
             "type":fileType,
-            "base64_file":self.base_64()
+            "base64_file":self.base_64(filePath)
         }
         data = json.dumps(data)
         #print(data)
