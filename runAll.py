@@ -3,6 +3,7 @@ import os
 import unittest
 import time
 from common import  HTMLTestRunner
+from common import LG
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import smtplib
@@ -88,6 +89,8 @@ if __name__ == '__main__':
     # user_id = a[1]
     # print('token 的类型是：',type(token))
     # write_yaml(token,user_id)
+    lg = LG.LG()
+    lg.login()
     all_case = add_case() # 第一步：加载用例
     # 生成测试报告的路径
     run_case(all_case) # 第二步：执行用例
